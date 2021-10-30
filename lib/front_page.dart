@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ui_burger_emoji/selected_item.dart';
 
 class FrontPage extends StatefulWidget {
   const FrontPage({Key? key}) : super(key: key);
@@ -111,11 +112,11 @@ class _FrontPageState extends State<FrontPage>
           scrollDirection: Axis.horizontal,
           children: [
             _buildListRecommendItems(Color(0xFFFFE9C6), 'burger.png',
-                'Hamburger', '\$15', Color(0xFFDA9551)),
+                'Hamburger', '15', Color(0xFFDA9551), context),
             _buildListRecommendItems(Color(0xFFC2E3FE), 'fries.png', 'Fries',
-                '\$10', Color(0xFF6A8CAA)),
+                '10', Color(0xFF6A8CAA), context),
             _buildListRecommendItems(Color(0xFFD7FADA), 'doughnut.png',
-                'Doughnut', '\$20', Color(0xFF56CC7E)),
+                'Doughnut', '20', Color(0xFF56CC7E), context),
           ],
         ),
       ),
@@ -150,48 +151,64 @@ class _FrontPageState extends State<FrontPage>
   }
 }
 
-_buildListRecommendItems(
+Widget _buildListRecommendItems(
   Color containerColor,
   String imageLabel,
   String itemname,
   String price,
   Color textColor,
+  BuildContext context,
 ) {
   return Padding(
     padding: const EdgeInsets.only(left: 15.0),
-    child: Container(
-      height: 175.0,
-      width: 150.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        color: containerColor,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 75.0,
-            height: 75.0,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-            child: Center(
-                child: Image.asset('assets/$imageLabel',
-                    height: 50.0, width: 50.0)),
-          ),
-          SizedBox(
-            height: 15.0,
-          ),
-          Text(
-            itemname,
-             style: GoogleFonts.notoSans(
-                          fontSize: 16.0, color: textColor),
-                    
-          ),
-          Text(price,
-               style: GoogleFonts.notoSans(
-                          fontSize: 16.0, color: textColor),
-                    ),
-        ],
+    child: GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SelectedItem(
+                    heroTag: itemname,
+                    imageLabel: imageLabel,
+                    itemName: itemname,
+                    price: price,
+                  )),
+        );
+      },
+      child: Container(
+        height: 175.0,
+        width: 150.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          color: containerColor,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Hero(
+              tag: itemname,
+              child: Container(
+                width: 75.0,
+                height: 75.0,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                child: Center(
+                    child: Image.asset('assets/$imageLabel',
+                        height: 50.0, width: 50.0)),
+              ),
+            ),
+            SizedBox(
+              height: 15.0,
+            ),
+            Text(
+              itemname,
+              style: GoogleFonts.notoSans(fontSize: 16.0, color: textColor),
+            ),
+            Text(
+              '\$' + price,
+              style: GoogleFonts.notoSans(fontSize: 16.0, color: textColor),
+            ),
+          ],
+        ),
       ),
     ),
   );
@@ -214,8 +231,8 @@ _buildFood(String imageLabel, String itemName, String salePrice,
       Row(
         children: [
           Container(
-            width: 60.0,
-            height: 60.0,
+            width: 62.0,
+            height: 62.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               color: Color(0xFFFFE4E0),
@@ -223,8 +240,8 @@ _buildFood(String imageLabel, String itemName, String salePrice,
             child: Center(
               child: Image.asset(
                 'assets/$imageLabel',
-                width: 40.0,
-                height: 40.0,
+                width: 43.0,
+                height: 43.0,
               ),
             ),
           ),
@@ -237,7 +254,7 @@ _buildFood(String imageLabel, String itemName, String salePrice,
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(itemName,
                       style: GoogleFonts.notoSans(
-                          fontSize: 14.0, fontWeight: FontWeight.w500)),
+                          fontSize: 15.0, fontWeight: FontWeight.w500)),
                 ),
                 RatingBar.builder(
                   itemSize: 17.0,
@@ -296,3 +313,9 @@ _buildFood(String imageLabel, String itemName, String salePrice,
 
 // rating,
 // rating.toInt(),
+
+
+// SelectedItem(
+//                     heroTag: itemname,
+//                     imageLabel: imageLabel,
+//                   )             )
