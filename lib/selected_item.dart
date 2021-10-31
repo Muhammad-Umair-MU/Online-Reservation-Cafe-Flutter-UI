@@ -20,12 +20,13 @@ class SelectedItem extends StatefulWidget {
   @override
   State<SelectedItem> createState() => _SelectedItemState();
 }
-
+int quantity = 1;
 class _SelectedItemState extends State<SelectedItem> {
-  int quantity = 2;
+  
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: ListView(children: [
         Padding(
@@ -112,27 +113,78 @@ class _SelectedItemState extends State<SelectedItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '\$' + widget.price,
+                '\$' + (int.parse(widget.price) * quantity).toString(),
                 style: GoogleFonts.notoSans(
                     fontSize: 40.0,
                     color: Color(0xFF5E6166),
                     fontWeight: FontWeight.w500),
               ),
-              _buildQuantityCounter(
-                  minusFunction: () {
-                    setState(() {
-                      quantity++;
-                    });
-                  },
-                  plusFunction: () {
-                    setState(() {
-                      quantity--;
-                    });
-                  },
-                  quantity: quantity.toString())
+              Container(
+                width: 270.0,
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.0),
+                    bottomLeft: Radius.circular(15.0),
+                  ),
+                  color: Color(0xFFFE7D6A),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      height: 45.0,
+                      width: 112.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: Colors.white),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            iconSize: 17.0,
+                            onPressed: () {
+                              setState(() {
+                                if(quantity > 1) {
+                                  quantity--;
+                                }
+                              });
+                            },
+                            icon: Icon(Icons.remove, color: Color(0xFFFE7D6A)),
+                            padding: EdgeInsets.all(0.0),
+                          ),
+                          Text(
+                            quantity.toString(),
+                            style: TextStyle(color: Color(0xFFFE7D6A)),
+                          ),
+                          IconButton(
+                            iconSize: 17.0,
+                            onPressed: () {
+                              setState(() {
+                                quantity++;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Color(0xFFFE7D6A),
+                            ),
+                            padding: EdgeInsets.all(0.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      'Add to Cart',
+                      style:  GoogleFonts.notoSans(
+                        fontSize: 20.0,color: Colors.white
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
+        SizedBox(height: 10.0,),
         Padding(
           padding: const EdgeInsets.only(left: 15.0),
           child: Text(
@@ -201,65 +253,6 @@ class icons extends StatelessWidget {
         child: Center(
             child: Icon(iconData, color: Color(0xFFFE7D6A), size: 30.0)));
   }
-}
-
-Widget _buildQuantityCounter(
-    {required VoidCallback minusFunction,
-    required VoidCallback plusFunction,
-    required String quantity}) {
-  return Container(
-    width: 270.0,
-    height: 80,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15.0),
-        bottomLeft: Radius.circular(15.0),
-      ),
-      color: Color(0xFFFE7D6A),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-          height: 45.0,
-          width: 112.0,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0), color: Colors.white),
-          child: Row(
-            children: [
-              IconButton(
-                iconSize: 17.0,
-                onPressed: () {
-                  minusFunction;
-                },
-                icon: Icon(Icons.remove, color: Color(0xFFFE7D6A)),
-                padding: EdgeInsets.all(0.0),
-              ),
-              Text(
-                quantity,
-                style: TextStyle(color: Color(0xFFFE7D6A)),
-              ),
-              IconButton(
-                iconSize: 17.0,
-                onPressed: () {
-                  plusFunction;
-                },
-                icon: Icon(
-                  Icons.add,
-                  color: Color(0xFFFE7D6A),
-                ),
-                padding: EdgeInsets.all(0.0),
-              ),
-            ],
-          ),
-        ),
-        Text(
-          'Add to Cart',
-          style: TextStyle(color: Colors.white),
-        ),
-      ],
-    ),
-  );
 }
 
 _buildFoodColumn(
@@ -339,3 +332,79 @@ _buildFood(color, String imageLabel, String itemName, String salePrice) {
     ),
   );
 }
+
+
+
+
+              // _buildQuantityCounter(
+              //     minusFunction: () {
+              //       setState(() {
+              //         quantity++;
+              //       });
+              //     },
+              //     plusFunction: () {
+              //       setState(() {
+              //         quantity--;
+              //       });
+              //     },
+              //     quantity: quantity.toString())
+
+
+// Widget _buildQuantityCounter(
+//     {required VoidCallback minusFunction,
+//     required VoidCallback plusFunction,
+//     required String quantity}) {
+//   return Container(
+//     width: 270.0,
+//     height: 80,
+//     decoration: BoxDecoration(
+//       borderRadius: BorderRadius.only(
+//         topLeft: Radius.circular(15.0),
+//         bottomLeft: Radius.circular(15.0),
+//       ),
+//       color: Color(0xFFFE7D6A),
+//     ),
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Container(
+//           height: 45.0,
+//           width: 112.0,
+//           decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(15.0), color: Colors.white),
+//           child: Row(
+//             children: [
+//               IconButton(
+//                 iconSize: 17.0,
+//                 onPressed: () {
+//                   minusFunction;
+//                 },
+//                 icon: Icon(Icons.remove, color: Color(0xFFFE7D6A)),
+//                 padding: EdgeInsets.all(0.0),
+//               ),
+//               Text(
+//                 quantity,
+//                 style: TextStyle(color: Color(0xFFFE7D6A)),
+//               ),
+//               IconButton(
+//                 iconSize: 17.0,
+//                 onPressed: () {
+//                   plusFunction;
+//                 },
+//                 icon: Icon(
+//                   Icons.add,
+//                   color: Color(0xFFFE7D6A),
+//                 ),
+//                 padding: EdgeInsets.all(0.0),
+//               ),
+//             ],
+//           ),
+//         ),
+//         Text(
+//           'Add to Cart',
+//           style: TextStyle(color: Colors.white),
+//         ),
+//       ],
+//     ),
+//   );
+// }
